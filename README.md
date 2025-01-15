@@ -36,3 +36,17 @@ npm install
 ```bash
 npm start
 ```
+
+3. アプリをビルドする
+
+```bash
+npm run make
+```
+
+## 備考
+
+MacOSでビルドしたアプリが隠しファイルにされることがある。その場合は以下のコマンドを実行して隠しフラグを外すこと。
+
+```bash
+chflags nohidden /path/to/your_app.app
+```

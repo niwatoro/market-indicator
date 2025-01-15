@@ -191,7 +191,8 @@ async function fetchNikkeiNews() {
         if (articleDate > oneHourAgo) {
           nikkeiArticles.push({
             url: "https://www.nikkei.com" + titleMatch[1],
-            headline: titleMatch[2],
+            // 全角文字を半角に変換
+            headline: titleMatch[2].replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0)),
             datetime: timeMatch[1],
             timeAgo: `${new Date(timeMatch[1]).toLocaleString()} JST`,
             source: "日経新聞",

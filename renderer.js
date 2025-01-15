@@ -188,7 +188,7 @@ async function fetchNikkeiNews() {
       if (timeMatch && titleMatch) {
         const articleDate = new Date(timeMatch[1]);
         // 1時間以内の記事のみを抽出
-        if (articleDate > oneHourAgo || true) {
+        if (articleDate > oneHourAgo) {
           nikkeiArticles.push({
             url: "https://www.nikkei.com" + titleMatch[1],
             headline: titleMatch[2],

@@ -55,18 +55,23 @@
         margin-top: 10px;
         padding-top: 10px;
         border-top: 1px solid #444;
-        height: 80px; /* ニュースセクションの高さを固定 */
+        height: 60px; /* ニュースセクションの高さを固定 */
         overflow: hidden;
         -webkit-app-region: no-drag;
       }
       #news-container {
+        height: 100%;
         transition: opacity 0.3s ease-in-out;
         -webkit-app-region: no-drag;
       }
       .news-item {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
         -webkit-app-region: no-drag;
       }
       .news-headline {
+        flex: 1;
         color: #fff;
         text-decoration: none;
         font-size: 13px;

@@ -28,7 +28,7 @@ function createWindow() {
   const { screen } = require("electron");
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.workAreaSize;
-  mainWindow.setPosition(width - 300, 0);
+  mainWindow.setPosition(width - 300, 60);
 }
 
 app.whenReady().then(createWindow);

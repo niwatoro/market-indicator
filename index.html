@@ -11,7 +11,9 @@
         color: white;
         font-family: Arial, sans-serif;
         -webkit-app-region: drag;
-        border-radius: 10px;
+        border-radius: 100px;
+        height: 100vh;
+        overflow-y: auto;
       }
       .indicator {
         margin: 5px 0;
@@ -25,7 +27,7 @@
       .value {
         color: #fff;
         font-family: monospace;
-        font-size: x-large;
+        font-size: large;
       }
       .value-container {
         display: flex;
@@ -34,17 +36,49 @@
       }
       .change-container {
         display: flex;
+        width: 50px;
         flex-direction: column;
         align-items: flex-end;
       }
       .change-container .value {
-        font-size: small;
+        font-size: smaller;
       }
       .up {
         color: #f44336;
       }
       .down {
         color: #4caf50;
+      }
+
+      /* News section styles */
+      .news-section {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #444;
+        height: 80px; /* ニュースセクションの高さを固定 */
+        overflow: hidden;
+      }
+      #news-container {
+        transition: opacity 0.3s ease-in-out;
+      }
+      .news-item {
+        padding: 8px 0;
+      }
+      .news-headline {
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .news-headline:hover {
+        text-decoration: underline;
+      }
+      .news-meta {
+        font-size: 11px;
+        color: #666;
+        display: flex;
+        gap: 8px;
       }
     </style>
   </head>
@@ -159,6 +193,11 @@
             <span class="value" id="cn10y-percent">-</span>
           </span>
         </div>
+      </div>
+    </div>
+    <div class="news-section">
+      <div id="news-container">
+        <!-- News items will be dynamically inserted here -->
       </div>
     </div>
     <script src="renderer.js"></script>

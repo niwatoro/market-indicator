@@ -62,7 +62,7 @@ function updateValue(elementId, value, previousValue, prevClose) {
     }
 
     changeElement.textContent = formattedChange;
-    percentElement.textContent = `(${changePrefix}${percentChange.toFixed(2)}%)`;
+    percentElement.textContent = `${changePrefix}${percentChange.toFixed(2)}%`;
 
     // 変化量の要素にも同じクラスを適用
     changeElement.classList.remove("up", "down");
@@ -159,7 +159,101 @@ async function fetchMarketData() {
 // 初期データ取得
 fetchMarketData();
 
-// 1分ごとにデータを更新
+// グローバル変数として記事の配列とカレントインデックスを保持
+let newsArticles = [];
+let currentArticleIndex = 0;
+
+// 次のニュースを表示する関数
+function showNextNews() {
+  const newsContainer = document.getElementById("news-container");
+  if (!newsContainer || newsArticles.length === 0) return;
+
+  // インデックスを更新（配列の最後まで行ったら最初に戻る）
+  currentArticleIndex = (currentArticleIndex + 1) % newsArticles.length;
+
+  // 現在の記事を表示
+  displayCurrentArticle();
+}
+
+// 現在の記事を表示する関数
+function displayCurrentArticle() {
+  const newsContainer = document.getElementById("news-container");
+  if (!newsContainer || newsArticles.length === 0) return;
+
+  const article = newsArticles[currentArticleIndex];
+
+  // フェードアウト効果を適用
+  newsContainer.style.opacity = 0;
+
+  setTimeout(() => {
+    // 記事を更新
+    newsContainer.innerHTML = `
+      <div class="news-item">
+        <a href="${article.url}" class="news-headline" target="_blank">${article.headline}</a>
+        <div class="news-meta">
+          ${article.timeAgo ? `<span>${article.timeAgo}</span>` : ""}
+        </div>
+      </div>
+    `;
+
+    // フェードイン効果を適用
+    newsContainer.style.opacity = 1;
+  }, 300); // 300msのフェード効果
+}
+
+// ニュースを取得して表示する関数
+async function fetchNews() {
+  try {
+    const response = await axios.get("https://www.bloomberg.co.jp/");
+    const html = response.data;
+
+    // 記事を抽出するための正規表現パターン
+    const articlePattern = /<article[^>]*class="story-list-story[^>]*>[\s\S]*?<\/article>/g;
+    const headlinePattern = /<a[^>]*class="story-list-story__info__headline-link"[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>/;
+    const authorPattern = /<span[^>]*class="story-list-story__info__byline"[^>]*>([^<]*)<\/span>/;
+    const timePattern = /<time[^>]*datetime="([^"]*)"[^>]*>([^<]*)<\/time>/;
+
+    // 記事を格納する配列をリセット
+    newsArticles = [];
+    let match;
+
+    // 記事を抽出
+    while ((match = articlePattern.exec(html)) !== null) {
+      const articleHtml = match[0];
+
+      // ヘッドライン、URL、著者、時間を抽出
+      const headlineMatch = articleHtml.match(headlinePattern);
+      const authorMatch = articleHtml.match(authorPattern);
+      const timeMatch = articleHtml.match(timePattern);
+
+      if (headlineMatch) {
+        newsArticles.push({
+          url: "https://www.bloomberg.co.jp" + headlineMatch[1],
+          headline: headlineMatch[2],
+          author: authorMatch ? authorMatch[1] : "",
+          datetime: timeMatch ? timeMatch[1] : "",
+          timeAgo: timeMatch ? `${new Date(timeMatch[2]).toLocaleString()} JST` : "",
+        });
+      }
+    }
+
+    // 最初の記事を表示
+    displayCurrentArticle();
+  } catch (error) {
+    console.error("Error fetching news:", error);
+  }
+}
+
+// 初期ニュース取得
+fetchNews();
+
+// 5秒ごとにニュースを切り替え
+setInterval(showNextNews, 5000);
+
+// 5分ごとにニュースを更新
+setInterval(fetchNews, 300000);
+
+// 1分ごとにマーケットデータを更新
 setInterval(fetchMarketData, 60000);
 
 // ドラッグ可能な領域の設定

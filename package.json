@@ -4,15 +4,19 @@
   "description": "Desktop market indicator app",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "make": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.9",
+    "electron-store": "^10.0.0"
+  },
+  "devDependencies": {
     "electron": "^29.1.4",
     "electron-reload": "^2.0.0-alpha.1",
-    "electron-store": "^10.0.0"
+    "electron-packager": "^17.1.2"
   }
 }

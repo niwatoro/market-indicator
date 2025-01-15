@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Market Indicator</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-family: Arial, sans-serif;
+        -webkit-app-region: drag;
+        border-radius: 10px;
+      }
+      .indicator {
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .name {
+        color: #888;
+      }
+      .value {
+        color: #fff;
+        font-family: monospace;
+        font-size: x-large;
+      }
+      .value-container {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .change-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+      .change-container .value {
+        font-size: small;
+      }
+      .up {
+        color: #f44336;
+      }
+      .down {
+        color: #4caf50;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="indicators">
+      <div class="indicator">
+        <span class="name">S&P500</span>
+        <div class="value-container">
+          <span class="value" id="sp500">-</span>
+          <span class="change-container">
+            <span class="value" id="sp500-change">-</span>
+            <span class="value" id="sp500-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">NASDAQ</span>
+        <div class="value-container">
+          <span class="value" id="nasdaq">-</span>
+          <span class="change-container">
+            <span class="value" id="nasdaq-change">-</span>
+            <span class="value" id="nasdaq-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">日経平均</span>
+        <div class="value-container">
+          <span class="value" id="nikkei">-</span>
+          <span class="change-container">
+            <span class="value" id="nikkei-change">-</span>
+            <span class="value" id="nikkei-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">上海総合</span>
+        <div class="value-container">
+          <span class="value" id="shanghai">-</span>
+          <span class="change-container">
+            <span class="value" id="shanghai-change">-</span>
+            <span class="value" id="shanghai-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">ビットコイン</span>
+        <div class="value-container">
+          <span class="value" id="btc">-</span>
+          <span class="change-container">
+            <span class="value" id="btc-change">-</span>
+            <span class="value" id="btc-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">USD/JPY</span>
+        <div class="value-container">
+          <span class="value" id="usdjpy">-</span>
+          <span class="change-container">
+            <span class="value" id="usdjpy-change">-</span>
+            <span class="value" id="usdjpy-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">EUR/USD</span>
+        <div class="value-container">
+          <span class="value" id="eurusd">-</span>
+          <span class="change-container">
+            <span class="value" id="eurusd-change">-</span>
+            <span class="value" id="eurusd-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">米10年債</span>
+        <div class="value-container">
+          <span class="value" id="us10y">-</span>
+          <span class="change-container">
+            <span class="value" id="us10y-change">-</span>
+            <span class="value" id="us10y-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">日10年債</span>
+        <div class="value-container">
+          <span class="value" id="jp10y">-</span>
+          <span class="change-container">
+            <span class="value" id="jp10y-change">-</span>
+            <span class="value" id="jp10y-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">独10年債</span>
+        <div class="value-container">
+          <span class="value" id="de10y">-</span>
+          <span class="change-container">
+            <span class="value" id="de10y-change">-</span>
+            <span class="value" id="de10y-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <span class="name">中10年債</span>
+        <div class="value-container">
+          <span class="value" id="cn10y">-</span>
+          <span class="change-container">
+            <span class="value" id="cn10y-change">-</span>
+            <span class="value" id="cn10y-percent">-</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>

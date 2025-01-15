@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { shell } = require("electron");
 
 // 各指標のシンボル（SMTB取得の債券を除く）
 const SYMBOLS = {
@@ -189,12 +190,24 @@ function displayCurrentArticle() {
     // 記事を更新
     newsContainer.innerHTML = `
       <div class="news-item">
-        <a href="${article.url}" class="news-headline" target="_blank">${article.headline}</a>
+        <a href="#" class="news-headline" data-url="${article.url}">${article.headline}</a>
         <div class="news-meta">
           ${article.timeAgo ? `<span>${article.timeAgo}</span>` : ""}
         </div>
       </div>
     `;
+
+    // Add click event listener to the news headline
+    const newsHeadline = newsContainer.querySelector(".news-headline");
+    if (newsHeadline) {
+      newsHeadline.addEventListener("click", (e) => {
+        e.preventDefault();
+        const url = e.target.dataset.url;
+        if (url) {
+          shell.openExternal(url);
+        }
+      });
+    }
 
     // フェードイン効果を適用
     newsContainer.style.opacity = 1;

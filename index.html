@@ -57,12 +57,15 @@
         border-top: 1px solid #444;
         height: 80px; /* ニュースセクションの高さを固定 */
         overflow: hidden;
+        -webkit-app-region: no-drag;
       }
       #news-container {
         transition: opacity 0.3s ease-in-out;
+        -webkit-app-region: no-drag;
       }
       .news-item {
         padding: 8px 0;
+        -webkit-app-region: no-drag;
       }
       .news-headline {
         color: #fff;
@@ -70,6 +73,7 @@
         font-size: 13px;
         display: block;
         margin-bottom: 4px;
+        -webkit-app-region: no-drag;
       }
       .news-headline:hover {
         text-decoration: underline;
@@ -79,6 +83,7 @@
         color: #666;
         display: flex;
         gap: 8px;
+        -webkit-app-region: no-drag;
       }
     </style>
   </head>

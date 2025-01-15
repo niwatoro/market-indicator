@@ -162,7 +162,50 @@ fetchMarketData();
 
 // グローバル変数として記事の配列とカレントインデックスを保持
 let newsArticles = [];
+let nikkeiArticles = [];
 let currentArticleIndex = 0;
+
+// 日経ニュースを取得する関数
+async function fetchNikkeiNews() {
+  try {
+    const response = await axios.get("https://www.nikkei.com/news/category/");
+    const html = response.data;
+
+    // 記事を抽出
+    const articlePattern = /<article[^>]*class="sokuhoCard_s1l4ik39[^>]*>[\s\S]*?<\/article>/g;
+    const timePattern = /<time[^>]*dateTime="([^"]*)"[^>]*>([^<]*)<\/time>/;
+    const titlePattern = /<a[^>]*href="([^"]*)"[^>]*class="titleLink_[^"]*"[^>]*>([^<]*)<\/a>/;
+
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    nikkeiArticles = [];
+    let match;
+
+    while ((match = articlePattern.exec(html)) !== null) {
+      const articleHtml = match[0];
+      const timeMatch = articleHtml.match(timePattern);
+      const titleMatch = articleHtml.match(titlePattern);
+
+      if (timeMatch && titleMatch) {
+        const articleDate = new Date(timeMatch[1]);
+        // 1時間以内の記事のみを抽出
+        if (articleDate > oneHourAgo || true) {
+          nikkeiArticles.push({
+            url: "https://www.nikkei.com" + titleMatch[1],
+            headline: titleMatch[2],
+            datetime: timeMatch[1],
+            timeAgo: `${new Date(timeMatch[1]).toLocaleString()} JST`,
+            source: "日経新聞",
+          });
+        }
+      }
+    }
+
+    // 既存のニュース配列と結合して時系列順にソート
+    newsArticles = [...newsArticles.filter((article) => article.source === "Bloomberg"), ...nikkeiArticles].sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+  } catch (error) {
+    console.error("Error fetching Nikkei news:", error);
+  }
+}
 
 // 次のニュースを表示する関数
 function showNextNews() {
@@ -192,6 +235,7 @@ function displayCurrentArticle() {
       <div class="news-item">
         <a href="#" class="news-headline" data-url="${article.url}">${article.headline}</a>
         <div class="news-meta">
+          <span class="news-source">${article.source}</span>
           ${article.timeAgo ? `<span>${article.timeAgo}</span>` : ""}
         </div>
       </div>
@@ -214,24 +258,32 @@ function displayCurrentArticle() {
   }, 300); // 300msのフェード効果
 }
 
-// ニュースを取得して表示する関数
-async function fetchNews() {
+// Bloombergニュースを取得して表示する関数
+async function fetchBloombergNews() {
   try {
     const response = await axios.get("https://www.bloomberg.co.jp/");
     const html = response.data;
 
     // 記事を抽出するための正規表現パターン
+    const latestNewsPattern = /<section[^>]*id="stories_right_rail_latest_news"[^>]*>[\s\S]*?<\/section>/;
     const articlePattern = /<article[^>]*class="story-list-story[^>]*>[\s\S]*?<\/article>/g;
     const headlinePattern = /<a[^>]*class="story-list-story__info__headline-link"[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>/;
     const authorPattern = /<span[^>]*class="story-list-story__info__byline"[^>]*>([^<]*)<\/span>/;
     const timePattern = /<time[^>]*datetime="([^"]*)"[^>]*>([^<]*)<\/time>/;
 
-    // 記事を格納する配列をリセット
-    newsArticles = [];
+    // Bloomberg記事を格納する配列をリセット
+    const bloombergArticles = [];
     let match;
 
+    // 最新ニュースセクションを抽出
+    const latestNewsMatch = html.match(latestNewsPattern);
+    if (!latestNewsMatch) {
+      console.error("Latest news section not found");
+      return;
+    }
+
     // 記事を抽出
-    while ((match = articlePattern.exec(html)) !== null) {
+    while ((match = articlePattern.exec(latestNewsMatch[0])) !== null) {
       const articleHtml = match[0];
 
       // ヘッドライン、URL、著者、時間を抽出
@@ -240,31 +292,40 @@ async function fetchNews() {
       const timeMatch = articleHtml.match(timePattern);
 
       if (headlineMatch) {
-        newsArticles.push({
+        bloombergArticles.push({
           url: "https://www.bloomberg.co.jp" + headlineMatch[1],
           headline: headlineMatch[2],
           author: authorMatch ? authorMatch[1] : "",
           datetime: timeMatch ? timeMatch[1] : "",
           timeAgo: timeMatch ? `${new Date(timeMatch[2]).toLocaleString()} JST` : "",
+          source: "Bloomberg",
         });
       }
     }
 
+    // 日経ニュースを取得
+    await fetchNikkeiNews();
+
+    // Bloomberg記事と日経ニュースを結合して時系列順にソート
+    newsArticles = [...bloombergArticles, ...nikkeiArticles].sort((a, b) => new Date(b.datetime) - new Date(a.datetime));
+
     // 最初の記事を表示
-    displayCurrentArticle();
+    if (newsArticles.length > 0) {
+      displayCurrentArticle();
+    }
   } catch (error) {
     console.error("Error fetching news:", error);
   }
 }
 
 // 初期ニュース取得
-fetchNews();
+fetchBloombergNews();
 
 // 5秒ごとにニュースを切り替え
 setInterval(showNextNews, 5000);
 
 // 5分ごとにニュースを更新
-setInterval(fetchNews, 300000);
+setInterval(fetchBloombergNews, 300000);
 
 // 1分ごとにマーケットデータを更新
 setInterval(fetchMarketData, 60000);

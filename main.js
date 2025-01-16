@@ -1,16 +1,16 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
-// require("electron-reload")(__dirname, {
-//   electron: path.join(__dirname, "node_modules", ".bin", "electron"),
-// });
+require("electron-reload")(__dirname, {
+  electron: path.join(__dirname, "node_modules", ".bin", "electron"),
+});
 
 let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 300,
-    height: 430,
+    height: 500,
     frame: false,
     transparent: true,
     alwaysOnTop: true,

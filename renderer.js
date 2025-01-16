@@ -8,6 +8,7 @@ const SYMBOLS = {
   nikkei: "^N225",
   shanghai: "000001.SS",
   btc: "BTC-USD",
+  oil: "CL=F",
   usdjpy: "JPY=X",
   eurusd: "EUR=X",
   us10y: "^TNX",
@@ -20,8 +21,13 @@ const BOND_IDS = {
   cn10y: "china10",
 };
 
+// 全角文字を半角に変換する関数
 function convertToHalfWidth(str) {
   return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
+}
+
+function withThousandSeparator(value) {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // 値を更新する関数
@@ -48,7 +54,7 @@ function updateValue(elementId, value, previousValue, prevClose) {
   } else if (elementId.includes("10y")) {
     formattedValue = Number(value).toFixed(3) + "%";
   } else {
-    formattedValue = Number(value).toFixed(2);
+    formattedValue = withThousandSeparator(Number(value).toFixed(2));
   }
 
   // 前日比と騰落率の計算と表示
@@ -133,9 +139,37 @@ async function fetchBondData() {
   }
 }
 
+// 金価格を取得する関数
+async function fetchGoldData() {
+  try {
+    const response = await axios.get("https://gold.tanaka.co.jp/commodity/souba/d-gold.php");
+    const html = response.data;
+
+    // 店頭小売価格（税込）を抽出
+    const retailPriceMatch = html.match(/<td class="retail_tax">([0-9,]+) 円<br \/>\(([-+]?\d+) 円\)<\/td>/);
+    if (retailPriceMatch) {
+      const price = parseFloat(retailPriceMatch[1].replace(/,/g, ""));
+      const change = parseFloat(retailPriceMatch[2]);
+      const prevClose = price - change;
+      return { price, prevClose };
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching gold data:", error);
+    return null;
+  }
+}
+
 // すべてのマーケットデータを取得する関数
 async function fetchMarketData() {
   try {
+    // 金価格を取得
+    const goldData = await fetchGoldData();
+    if (goldData !== null) {
+      updateValue("gold", goldData.price, previousValues["gold"], goldData.prevClose);
+      previousValues["gold"] = goldData.price;
+    }
+
     // Yahoo Financeのデータを取得
     for (const [elementId, symbol] of Object.entries(SYMBOLS)) {
       const data = await fetchSymbolData(symbol);

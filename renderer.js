@@ -20,6 +20,10 @@ const BOND_IDS = {
   cn10y: "china10",
 };
 
+function convertToHalfWidth(str) {
+  return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0));
+}
+
 // 値を更新する関数
 function updateValue(elementId, value, previousValue, prevClose) {
   const element = document.getElementById(elementId);
@@ -192,7 +196,7 @@ async function fetchNikkeiNews() {
           nikkeiArticles.push({
             url: "https://www.nikkei.com" + titleMatch[1],
             // 全角文字を半角に変換
-            headline: titleMatch[2].replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0)),
+            headline: convertToHalfWidth(titleMatch[2]),
             datetime: timeMatch[1],
             timeAgo: `${new Date(timeMatch[1]).toLocaleString()} JST`,
             source: "日経新聞",
@@ -295,7 +299,7 @@ async function fetchBloombergNews() {
       if (headlineMatch) {
         bloombergArticles.push({
           url: "https://www.bloomberg.co.jp" + headlineMatch[1],
-          headline: headlineMatch[2],
+          headline: convertToHalfWidth(headlineMatch[2]),
           author: authorMatch ? authorMatch[1] : "",
           datetime: timeMatch ? timeMatch[1] : "",
           timeAgo: timeMatch ? `${new Date(timeMatch[2]).toLocaleString()} JST` : "",

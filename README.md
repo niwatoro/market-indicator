@@ -37,6 +37,14 @@ npm install
 npm start
 ```
 
+3. `main.js`の以下の行をコメントアウトします。
+
+```main.js
+require("electron-reload")(__dirname, {
+  electron: path.join(__dirname, "node_modules", ".bin", "electron"),
+});
+```
+
 3. アプリをビルドします。
 
 ```bash

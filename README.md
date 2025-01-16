@@ -61,15 +61,3 @@ chflags nohidden /path/to/your_app.app
 2. データが表示されない場合
    - インターネット接続を確認
    - 開発ツールのコンソールでエラーを確認
-
-## ライセンス
-
-ISC License
-
-## 貢献
-
-1. Forkする
-2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. Pull Requestを作成

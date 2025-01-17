@@ -347,4 +347,15 @@ setInterval(fetchMarketData, 60000);
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   body.style.webkitAppRegion = "drag";
+
+  // 銘柄リンクのクリックイベントを設定
+  document.querySelectorAll(".name").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const url = e.target.dataset.url;
+      if (url) {
+        shell.openExternal(url);
+      }
+    });
+  });
 });

@@ -23,6 +23,12 @@
       }
       .name {
         color: #888;
+        text-decoration: none;
+        -webkit-app-region: no-drag;
+      }
+      .name:hover {
+        color: #fff;
+        text-decoration: underline;
       }
       .value {
         color: #fff;
@@ -102,7 +108,7 @@
   <body>
     <div id="indicators">
       <div class="indicator">
-        <span class="name">S&P500</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/%5EGSPC" class="name">S&P500</a>
         <div class="value-container">
           <span class="value" id="sp500">-</span>
           <span class="change-container">
@@ -112,7 +118,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">NASDAQ</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/%5EIXIC" class="name">NASDAQ</a>
         <div class="value-container">
           <span class="value" id="nasdaq">-</span>
           <span class="change-container">
@@ -122,7 +128,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">日経平均</span>
+        <a href="#" data-url="https://www.nikkei.com/markets/worldidx/chart/nk225/" class="name">日経平均</a>
         <div class="value-container">
           <span class="value" id="nikkei">-</span>
           <span class="change-container">
@@ -132,7 +138,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">上海総合</span>
+        <a href="#" data-url="http://www.sse.com.cn/market/price/trends/" class="name">上海総合</a>
         <div class="value-container">
           <span class="value" id="shanghai">-</span>
           <span class="change-container">
@@ -142,7 +148,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">ビットコイン</span>
+        <a href="#" data-url="https://coinmarketcap.com/currencies/bitcoin/" class="name">ビットコイン</a>
         <div class="value-container">
           <span class="value" id="btc">-</span>
           <span class="change-container">
@@ -152,7 +158,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">NY金先物</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/GC=F/" class="name">NY金先物</a>
         <div class="value-container">
           <span class="value" id="gold">-</span>
           <span class="change-container">
@@ -162,7 +168,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">WTI原油先物</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/CL=F/" class="name">WTI原油先物</a>
         <div class="value-container">
           <span class="value" id="oil">-</span>
           <span class="change-container">
@@ -172,7 +178,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">USD/JPY</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/JPY=X/" class="name">USD/JPY</a>
         <div class="value-container">
           <span class="value" id="usdjpy">-</span>
           <span class="change-container">
@@ -182,7 +188,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">EUR/USD</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/EUR=X/" class="name">EUR/USD</a>
         <div class="value-container">
           <span class="value" id="eurusd">-</span>
           <span class="change-container">
@@ -192,7 +198,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">USD/CNY</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/CNY=X/" class="name">USD/CNY</a>
         <div class="value-container">
           <span class="value" id="usdcny">-</span>
           <span class="change-container">
@@ -202,7 +208,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">米10年債</span>
+        <a href="#" data-url="https://finance.yahoo.com/quote/%5ETNX/" class="name">米10年債</a>
         <div class="value-container">
           <span class="value" id="us10y">-</span>
           <span class="change-container">
@@ -212,7 +218,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">日10年債</span>
+        <a href="#" data-url="https://fund.smtb.jp/smtbhp/qsearch.exe?F=market3" class="name">日10年債</a>
         <div class="value-container">
           <span class="value" id="jp10y">-</span>
           <span class="change-container">
@@ -222,7 +228,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">独10年債</span>
+        <a href="#" data-url="https://fund.smtb.jp/smtbhp/qsearch.exe?F=market3" class="name">独10年債</a>
         <div class="value-container">
           <span class="value" id="de10y">-</span>
           <span class="change-container">
@@ -232,7 +238,7 @@
         </div>
       </div>
       <div class="indicator">
-        <span class="name">中10年債</span>
+        <a href="#" data-url="https://fund.smtb.jp/smtbhp/qsearch.exe?F=market3" class="name">中10年債</a>
         <div class="value-container">
           <span class="value" id="cn10y">-</span>
           <span class="change-container">

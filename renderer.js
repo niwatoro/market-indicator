@@ -8,9 +8,11 @@ const SYMBOLS = {
   nikkei: "^N225",
   shanghai: "000001.SS",
   btc: "BTC-USD",
+  gold: "GC=F",
   oil: "CL=F",
   usdjpy: "JPY=X",
   eurusd: "EUR=X",
+  usdcny: "CNY=X",
   us10y: "^TNX",
 };
 
@@ -139,37 +141,9 @@ async function fetchBondData() {
   }
 }
 
-// 金価格を取得する関数
-async function fetchGoldData() {
-  try {
-    const response = await axios.get("https://gold.tanaka.co.jp/commodity/souba/d-gold.php");
-    const html = response.data;
-
-    // 店頭小売価格（税込）を抽出
-    const retailPriceMatch = html.match(/<td class="retail_tax">([0-9,]+) 円<br \/>\(([-+]?\d+) 円\)<\/td>/);
-    if (retailPriceMatch) {
-      const price = parseFloat(retailPriceMatch[1].replace(/,/g, ""));
-      const change = parseFloat(retailPriceMatch[2]);
-      const prevClose = price - change;
-      return { price, prevClose };
-    }
-    return null;
-  } catch (error) {
-    console.error("Error fetching gold data:", error);
-    return null;
-  }
-}
-
 // すべてのマーケットデータを取得する関数
 async function fetchMarketData() {
   try {
-    // 金価格を取得
-    const goldData = await fetchGoldData();
-    if (goldData !== null) {
-      updateValue("gold", goldData.price, previousValues["gold"], goldData.prevClose);
-      previousValues["gold"] = goldData.price;
-    }
-
     // Yahoo Financeのデータを取得
     for (const [elementId, symbol] of Object.entries(SYMBOLS)) {
       const data = await fetchSymbolData(symbol);

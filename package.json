@@ -1,5 +1,5 @@
 {
-  "name": "market-indicator",
+  "name": "MarketIndicator",
   "version": "1.0.0",
   "description": "Desktop market indicator app",
   "main": "main.js",

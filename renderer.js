@@ -7,16 +7,18 @@ const SYMBOLS = {
   nasdaq: "^IXIC",
   nikkei: "^N225",
   shanghai: "000001.SS",
+  ftse: "^FTSE",
   btc: "BTC-USD",
   gold: "GC=F",
   oil: "CL=F",
   usdjpy: "JPY=X",
   eurusd: "EUR=X",
   usdcny: "CNY=X",
+  gbpusd: "GBP=X",
   us10y: "^TNX",
 };
 
-// SMTBから取得する債券のID
+// SMTBから取得する債券のID（英国債を除く）
 const BOND_IDS = {
   jp10y: "japan10",
   de10y: "germany10",
@@ -111,27 +113,46 @@ async function fetchSymbolData(symbol) {
   }
 }
 
-// SMTBから債券利回りを取得する関数
+// 債券利回りを取得する関数
 async function fetchBondData() {
   try {
-    const response = await axios.get("https://fund.smtb.jp/smtbhp/qsearch.exe?F=market3");
-    const html = response.data;
     const results = {};
 
-    // 各債券のデータを抽出
+    // SMTBから日本、ドイツ、中国の債券データを取得
+    const smtbResponse = await axios.get("https://fund.smtb.jp/smtbhp/qsearch.exe?F=market3");
+    const smtbHtml = smtbResponse.data;
+
+    // SMTBの債券データを抽出
     for (const [key, id] of Object.entries(BOND_IDS)) {
-      // 利回りと前日比を抽出するための正規表現
       const valueRegex = new RegExp(`id="${id}"[\\s\\S]*?<span>(\\d+\\.\\d+)%<\\/span>`);
       const changeRegex = new RegExp(`id="${id}"[\\s\\S]*?<span class="mod-txt-nb[^"]*">([+-]?\\d+\\.\\d+)<\\/span>`);
 
-      const valueMatch = html.match(valueRegex);
-      const changeMatch = html.match(changeRegex);
+      const valueMatch = smtbHtml.match(valueRegex);
+      const changeMatch = smtbHtml.match(changeRegex);
 
       if (valueMatch && valueMatch[1]) {
         const value = parseFloat(valueMatch[1]);
         const change = changeMatch ? parseFloat(changeMatch[1]) : null;
         results[key] = { value, change };
       }
+    }
+
+    // 松井証券から英国債データを取得
+    const matsuiResponse = await axios.get("https://finance.matsui.co.jp/bonds/BMGB10Y/index");
+    const matsuiHtml = matsuiResponse.data;
+
+    // 英国債の利回りと前日比を抽出
+    const ukValueRegex = /<th>年利回り\(%\)<\/th>\s*<td><i class=" big_sign3"><\/i>(\d+\.\d+)\(\d+\/\d+\)<\/td>/;
+    const ukChangeRegex = /<th>前日比<\/th>\s*<td class="*m-down-color"*>([+-]?\d+\.\d+)<\/td>/;
+
+    const ukValueMatch = matsuiHtml.match(ukValueRegex);
+    const ukChangeMatch = matsuiHtml.match(ukChangeRegex);
+    console.log(matsuiHtml);
+
+    if (ukValueMatch && ukValueMatch[1]) {
+      const value = parseFloat(ukValueMatch[1]);
+      const change = ukChangeMatch ? parseFloat(ukChangeMatch[1]) : null;
+      results["uk10y"] = { value, change };
     }
 
     return results;

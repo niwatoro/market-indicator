@@ -12,8 +12,8 @@
         font-family: Arial, sans-serif;
         -webkit-app-region: drag;
         border-radius: 100px;
-        height: 100vh;
-        overflow-y: auto;
+        height: auto;
+        overflow: hidden;
       }
       .indicator {
         margin: 5px 0;
@@ -108,22 +108,22 @@
   <body>
     <div id="indicators">
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/%5EGSPC" class="name">S&P500</a>
-        <div class="value-container">
-          <span class="value" id="sp500">-</span>
-          <span class="change-container">
-            <span class="value" id="sp500-change">-</span>
-            <span class="value" id="sp500-percent">-</span>
-          </span>
-        </div>
-      </div>
-      <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/%5EIXIC" class="name">NASDAQ</a>
+        <a href="#" data-url="https://www.bloomberg.com/quote/CCMP:IND" class="name">NASDAQ</a>
         <div class="value-container">
           <span class="value" id="nasdaq">-</span>
           <span class="change-container">
             <span class="value" id="nasdaq-change">-</span>
             <span class="value" id="nasdaq-percent">-</span>
+          </span>
+        </div>
+      </div>
+      <div class="indicator">
+        <a href="#" data-url="https://www.bloomberg.com/quote/SPX:IND" class="name">S&P500</a>
+        <div class="value-container">
+          <span class="value" id="sp500">-</span>
+          <span class="change-container">
+            <span class="value" id="sp500-change">-</span>
+            <span class="value" id="sp500-percent">-</span>
           </span>
         </div>
       </div>
@@ -138,7 +138,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/%5EFTSE" class="name">FTSE100</a>
+        <a href="#" data-url="https://www.bloomberg.com/quote/UKX:IND" class="name">FTSE100</a>
         <div class="value-container">
           <span class="value" id="ftse">-</span>
           <span class="change-container">
@@ -148,7 +148,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="http://www.sse.com.cn/market/price/trends/" class="name">上海総合</a>
+        <a href="#" data-url="https://www.bloomberg.com/quote/SHCOMP:IND" class="name">上海総合</a>
         <div class="value-container">
           <span class="value" id="shanghai">-</span>
           <span class="change-container">
@@ -168,7 +168,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/GC=F/" class="name">NY金先物</a>
+        <a href="#" data-url="https://www.bloomberg.com/quote/GC1:COM" class="name">NY金先物</a>
         <div class="value-container">
           <span class="value" id="gold">-</span>
           <span class="change-container">
@@ -178,7 +178,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/CL=F/" class="name">WTI原油先物</a>
+        <a href="#" data-url="https://www.bloomberg.com/quote/CL1:COM" class="name">WTI原油先物</a>
         <div class="value-container">
           <span class="value" id="oil">-</span>
           <span class="change-container">
@@ -188,7 +188,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/JPY=X/" class="name">USD/JPY</a>
+        <a href="#" data-url="https://jp.tradingview.com/symbols/USDJPY/" class="name">USD/JPY</a>
         <div class="value-container">
           <span class="value" id="usdjpy">-</span>
           <span class="change-container">
@@ -198,7 +198,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/EUR=X/" class="name">EUR/USD</a>
+        <a href="#" data-url="https://jp.tradingview.com/symbols/EURUSD/" class="name">EUR/USD</a>
         <div class="value-container">
           <span class="value" id="eurusd">-</span>
           <span class="change-container">
@@ -208,7 +208,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/GBP=X/" class="name">GBP/USD</a>
+        <a href="#" data-url="https://jp.tradingview.com/symbols/GBPUSD/" class="name">GBP/USD</a>
         <div class="value-container">
           <span class="value" id="gbpusd">-</span>
           <span class="change-container">
@@ -218,7 +218,7 @@
         </div>
       </div>
       <div class="indicator">
-        <a href="#" data-url="https://finance.yahoo.com/quote/CNY=X/" class="name">USD/CNY</a>
+        <a href="#" data-url="https://jp.tradingview.com/symbols/USDCNY/" class="name">USD/CNY</a>
         <div class="value-container">
           <span class="value" id="usdcny">-</span>
           <span class="change-container">

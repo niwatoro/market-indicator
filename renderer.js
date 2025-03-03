@@ -12,9 +12,9 @@ const SYMBOLS = {
   gold: "GC=F",
   oil: "CL=F",
   usdjpy: "JPY=X",
-  eurusd: "EUR=X",
+  eurusd: "EURUSD=X",
   usdcny: "CNY=X",
-  gbpusd: "GBP=X",
+  gbpusd: "GBPUSD=X",
   us10y: "^TNX",
 };
 
